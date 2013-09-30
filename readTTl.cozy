@@ -1,0 +1,79 @@
+
+lazy = require("lazy")
+fs  = require("fs")
+cli = require('cli')
+neo4j = require('neo4j')
+db = new neo4j.GraphDatabase('http://localhost:7474')
+
+n3 = require('n3')
+parser = new n3.Parser()
+
+options = cli.parse
+    f: ['f', 'The ttl filename', 'string']
+
+
+lines = new lazy(fs.createReadStream(options.f))
+     .lines
+
+#(line) <- lines.forEach!
+#    console.log(line.toString!)
+
+regex = /http:\/\/.+\/(.+)/
+regex_remove_mark = /.*:/
+
+pattern_fetch = (pattern, str) ->
+
+    match = pattern.exec(str)
+    if (match?)
+        match
+    else
+        null 
+
+save_node = (title, cb) ->
+    node = db.createNode({title: title});
+    (err, node) <- node.save!
+        if (err)
+            console.err('Error saving new node to database:', err)
+        else
+            console.log('Saved node: ', node.id)
+            if (cb?)
+                cb(node)
+
+link = (source_node, target_node, type, data, cb) ->
+    (err, relation) <- source_node.createRelationshipTo(target_node, type, data, _)
+        if (err)
+            console.err('Error creating relationship: ', err)
+        else
+            (err, rel) <- relation.save!
+                if (err)
+                    console.err('Error saving new relationship:', err)
+                else
+                    console.log('Saved relationship: ', rel.id)
+                    if (cb?)
+                        cb(rel)
+
+
+(error, triple, next) <- parser.parse(fs.createReadStream(options.f), _)
+    if (triple)
+        console.log(triple.subject, triple.predicate, triple.object, '.')
+
+        subject = pattern_fetch(regex, triple.subject)
+        predicate = pattern_fetch(regex, triple.predicate)
+        object = pattern_fetch(regex, triple.object)
+
+
+        if (subject? and predicate? and object?)
+            subject = subject[1].replace(regex_remove_mark, '')
+            predicate = predicate[1].replace(regex_remove_mark, '')
+            object = object[1].replace(regex_remove_mark, '')
+
+            (subject_node) <- save_node(subject, _)
+                (object_node) <- save_node(object, _) 
+                    (rel) <- link(subject_node, object_node, predicate, {title: predicate}, _)
+                        console.log(subject, predicate, object, 'rel:', rel.id)
+                        next!
+                        #setTimeout(next!, 10000)
+        
+    else
+        console.log("# That's it, folks!")
+

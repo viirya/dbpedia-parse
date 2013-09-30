@@ -1,0 +1,21 @@
+{
+  "author": "Liang-Chi Hsieh <viirya@gmail.com>",
+  "name": "dbpedia-parse",
+  "description": "Scripts for parsing and exploring dbpedia",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/viirya/dbpedia-parse.git"
+  },
+  "engines": {
+    "node": "~v0.4.11"
+  },
+  "dependencies": {
+    "cli":"latest",
+    "lazy":"latest",
+    "cozy-script": "latest",
+    "neo4j": "latest",
+    "n3": "latest"
+  },
+  "devDependencies": {}
+}
