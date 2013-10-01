@@ -17,7 +17,8 @@
   parser = new n3.Parser();
 
   options = cli.parse({
-    f: ['f', 'The ttl filename', 'string']
+    f: ['f', 'The ttl filename', 'string'],
+    index: ['i', 'The index of neo4j database', 'string', 'default']
   });
 
   lines = new lazy(fs.createReadStream(options.f)).lines;
@@ -46,9 +47,16 @@
         return console.err('Error saving new node to database:', err);
       } else {
         console.log('Saved node: ', node.id);
-        if ((cb != null)) {
-          return cb(node);
-        }
+        return node.index(options.index, 'title', title, function(err) {
+          if (err) {
+            return console.err('Error indexing new node to database:', err);
+          } else {
+            console.log('Indexed node: ', node.id);
+            if ((cb != null)) {
+              return cb(node);
+            }
+          }
+        });
       }
     });
   };
