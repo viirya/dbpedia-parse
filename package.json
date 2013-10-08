@@ -15,7 +15,14 @@
     "lazy":"latest",
     "cozy-script": "latest",
     "neo4j": "latest",
-    "n3": "latest"
+    "n3": "latest",
+    "express": "latest",
+    "jade": "0.28.1",
+    "stylus": "latest",
+    "nib": "latest",
+    "socket.io": "latest"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "mocha":"latest"
+  }
 }

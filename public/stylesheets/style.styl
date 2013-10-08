@@ -1,0 +1,193 @@
+/*
+ * Import nib
+ */
+@import 'nib'
+
+
+/*
+ * Nib provides a CSS reset
+ */
+global-reset()
+
+/*
+ * Store the main color and
+ * background color as variables
+ */
+main-color = #fa5b4d
+background-color = #faf9f0
+
+body
+  background-color background-color
+  color #444
+  font-family: "Monaco", "Helvetica", "Times New Roman"
+
+header
+  //color #fff
+  //text-align center
+  margin-bottom 20px
+
+  h1
+    font-size 50px
+    margin-bottom 10px
+
+  span
+    font-size 15px
+  /*
+   * Note the use of the `main-color`
+   * variable and the `darken` function
+   */
+  //background-color main-color
+  //border-bottom 1px solid darken(main-color, 30%)
+  //text-shadow 0px -1px 0px darken(main-color, 30%)
+
+.container
+  width 800px
+  height auto
+  margin 50px auto
+  overflow hidden
+
+.main-content
+  height 800px
+  padding-top 50px
+
+  p
+    margin-bottom 20px
+ 
+  .title
+    margin-bottom 50px
+    font-size 20px 
+
+
+  span.query_title
+  span.table
+  span.figure
+    font-size 18px
+    margin-right 10px
+
+  span.bike:hover
+  span.slot:hover
+  span.table:hover
+  span.figure:hover
+    color red
+
+  span.query_type
+  span.view_type
+    margin-left 100px
+
+  .type
+  .query
+    margin-bottom 50px  
+
+  .viewtype
+    margin-bottom 20px
+
+  p.desc
+    font-size 18px
+
+  input#station_name
+    font-size 25px
+
+  #stations
+
+    .station_name
+    .station_name_header
+    .station_bike
+    .station_bike_num
+    .station_bike_header
+    .station_slot
+    .station_slot_num
+    .station_slot_header
+      font-size 25px
+      margin 0 20px 0 0
+      padding: 10px 10px 10px 10px
+      float left
+
+    .station_name
+    .station_bike
+    .station_slot
+    .station_bike_num
+    .station_slot_num
+      float left
+
+    .station_bike_num
+    .station_slot_num
+      text-align:right
+ 
+    .station_bike
+    .station_slot
+      width 170px
+
+    .station_bike_num
+    .station_slot_num
+      width 50px
+ 
+    .station_name
+      width 360px
+
+    .station
+      margin 20px 0 20px 0
+
+    p.clear
+      clear both
+  
+  #box
+  #d3box
+    width 1000px
+    height 800px
+
+  #map-canvas
+  #d3-canvas
+    margin-top 10px
+    height 800px
+    width 1000px
+
+  .infobox
+    display none
+
+    #mapinfobox
+      height 100px
+      width 100px
+      font-size 20px
+
+      span
+        margin-top 50px
+  a
+    color #444
+  a:hover
+    color red
+
+rect 
+  fill-opacity .6
+  fill #e377c2
+
+
+.infoboxonmap
+  height 200px
+  width 200px
+
+  span.info
+    font-size 20px
+    margin-top 50px
+
+.inspector 
+  position absolute
+  width 280px
+  height 100px
+  padding 2px
+  font 18px
+  background #E6DB74
+  border 1px solid white
+  border-radius 4px
+  pointer-events none
+
+  p
+    margin-top 3px
+    margin-bottom 3px
+ 
+.footer
+    float left
+    height 100px
+ 
+p
+  line-height 1.8
+

@@ -1,0 +1,29 @@
+
+assert = require('assert')
+
+() <- describe('NetDB')
+    () <- describe('#new()')
+        () <- it('should connect to neo4j db withour error')
+            DB = require('../netdb')
+            netdb = new DB.NetDB!
+
+            return netdb
+ 
+    () <- describe('#findNode()')
+        (done) <- it('should return correct node')
+            DB = require('../netdb')
+            netdb = new DB.NetDB
+ 
+            (node) <- netdb.findNode('BabySoul', _)
+                assert.strictEqual(node['title'], 'BabySoul')
+                done!
+ 
+    () <- describe('#findConnectedNodes()')
+        (done) <- it('should return correct nodes')
+            DB = require('../netdb')
+            netdb = new DB.NetDB
+ 
+            (nodes) <- netdb.findConnectedNodes('BabySoul', _)
+                assert.strictEqual(nodes[0]['title'], '韓國女歌手')
+                done!
+

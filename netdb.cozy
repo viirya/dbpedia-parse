@@ -1,0 +1,30 @@
+
+neo4j = require('neo4j')
+
+class NetDB
+
+    constructor: (neo4j_url = 'http://localhost:7474') ->
+        @db = new neo4j.GraphDatabase(neo4j_url)
+
+    findNode: (node_title, cb) =>     
+        (err, node) <- @db.getIndexedNode('default', 'title', node_title, _)
+            if (err)
+                console.log('err', err)
+            else
+                cb(node.data, node)
+ 
+    findConnectedNodes: (node_title, cb) =>     
+        (node_data, node) <~ @findNode(node_title, _)
+            query = "START me = node:default(title = '#{node_data.title}') MATCH me-[:subject]->you RETURN you;"
+            (err, results) <- @db.query(query, {}, _)
+                if (err)
+                    console.log('err', err);
+                else 
+                    data = []
+                    for row in results
+                        node = row['you']
+                        data.push(node.data)
+                    cb(data, results)
+
+exports.NetDB = NetDB
+
