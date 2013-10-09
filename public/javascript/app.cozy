@@ -50,8 +50,21 @@
 
     window.init_vis = () ->
 
+        # Want to set a horizontally extended tree, so swap height and width parameters.
+
+        # d3 tree layout will set up a vertically extended tree. The layout will automatically
+        # set up the (x, y) for all nodes in the tree. The strategy is to evenly divide width and height
+        # between nodes. So assume that width and height is 1000 and 600, if the input is a tree with
+        # 1 root node and 1 node in 2nd level and 5 nodes in 3rd level. The (x, y) for root node would be
+        # (300, 0). (300, 500) for 2nd level node. The y for the 5 nodes in 3rd level would be the same as
+        # 1000. Their x are (60, 180, 300, 420, 540).
+
+        # So since we want to set up a horizontal tree, we swap actual height and width for the layout.        
+
         window.tree = tree = d3.layout.tree()
             .size([window.tree_size.height, window.tree_size.width]);
+
+        # Since we swap x and y for nodes in tree. The projection should swap its output too.
 
         window.diagonal = d3.svg.diagonal()
             .projection((d) ->
@@ -84,8 +97,10 @@
         nodes = tree.nodes(window.words_tree).reverse()
         links = tree.links(nodes)
 
+        # Forcelly set up y for nodes. 
+
         nodes.forEach((d) -> d.y = d.depth * 180)
-        
+
         g_nodes = svg.selectAll("g.node")
             .data(nodes, (d) -> return d.id || (d.id = ++i))
 
@@ -137,7 +152,7 @@
             .style("stroke", "#ccc")
             .attr("d", (d) ->
                 o = {x: word_tree.x0, y: word_tree.y0}
-                return diagonal({source: o, target: o})
+                return diagonal({source: o, target: o})  # the x and y of links would be swaped by projection
             )
 
         g_links.transition()
